@@ -1,0 +1,36 @@
+Steg för att få igång RAG med lokal LLM på windows dator
+
+1. Ladda ned OLLAMA
+1.1 installera
+1.2 välj en model att start en konversation med jag kan rekommendera den mindre GEMMA3.1B modellen då den är ganska liten. om modellen inte finns på datorn kommer den laddas ned.
+
+2. Installera tilläggspaket i VScode Python + Python debugger  OLLAMA for vscode
+
+3. skapa ett virutuelt utrymme: det är starkt rekomenderat att skapa ett virutuellt utrymme att installera alla peket vi använder i projektet då en del är community paket som inte tillåts att instaleras i python defaullt.
+
+I cmd kör: C:\Users\Your Name> python -m venv venv_rag
+
+för att starta miljön:  C:\Users\Your Name> venv_rag\Scripts\activate 
+
+
+4. Med den virutuella miljön skapad och aktiverad kan vi nu installera alla paket som behövs.
+
+I cmd kör: pip install -r requirments.txt
+
+Denna är fortfarande ofullständig och kommer inte att inkludera alla nödvändiga paket
+
+om du försöker köra någon klass och får felmeddelande på typen "det finns ingen modul xxxxx"
+
+kör pip install xxxxxx och installera de saknade paketeten.
+
+körordning
+
+tills det att vi satt upp ett script så måste man köra klasserna i denna ordning
+
+preprocess.py - förbehandlar dokumentet och bryter ned det i chunks
+
+embedd.py - sparar i sqllite db fil, tills vidare använder vi denna som vektor förvaring
+
+SQLRetriver - kolla att det går att skicka in ett query till databasen och begära ut de top 2 matchande resultaten
+
+LangChainWraper - agerar mellanhand mellan OLLAMA och övriga metoder, just nu tar den kontext från databasen och jämför mot frågan som användaren skickar in.
