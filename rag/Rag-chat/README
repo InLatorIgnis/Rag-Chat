@@ -34,3 +34,5 @@ embedd.py - sparar i sqllite db fil, tills vidare använder vi denna som vektor 
 SQLRetriver - kolla att det går att skicka in ett query till databasen och begära ut de top 2 matchande resultaten
 
 LangChainWraper - agerar mellanhand mellan OLLAMA och övriga metoder, just nu tar den kontext från databasen och jämför mot frågan som användaren skickar in.
+
+ragChat -  vår main metod som initiserar OLLAMA och skickar en fråga till LLM
