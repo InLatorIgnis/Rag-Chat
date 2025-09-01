@@ -5,7 +5,7 @@ import csv
 import json
 import enums
 
-class SQLiteRetriever:
+class retrieverSQL:
     def __init__(self, db_path, top_k=5):
         self.db_path = enums.filePaths.DB_PATH
         self.top_k = top_k
@@ -35,7 +35,7 @@ class SQLiteRetriever:
 
 if __name__ == "__main__":
     # Example usage
-    retriever = SQLiteRetriever("embeddings.db")
+    retriever = retrieverSQL(enums.filePaths.DB_PATH.value)
 
     # Example: load an embedding from CSV
     import csv, json

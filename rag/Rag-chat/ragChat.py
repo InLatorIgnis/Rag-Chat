@@ -1,13 +1,13 @@
 import enums
 #
-from LangChainWrapper import LangChainSQLiteRetriever
+from langChainWrapper import LangChainSQLiteRetriever
 
 from sentence_transformers import SentenceTransformer
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+embedding_model = SentenceTransformer(enums.modelNames.EMBEDDING_MODEL)
 
 #
-from SQLiteRetriever import SQLiteRetriever
-retriever_instance = SQLiteRetriever(db_path="embeddings.db")
+from retrieverSQL import retrieverSQL
+retriever_instance = retrieverSQL(db_path=enums.filePaths.DB_PATH.value)
 
 #
 lc_retriever = LangChainSQLiteRetriever(
@@ -24,7 +24,7 @@ llm = ChatOllama(
 #    stop=["\n\n"]       # optional, to cut off after a double newline
 )
 
-# 5️⃣ Optional prompt template
+#
 from langchain_core.prompts import PromptTemplate
 
 prompt_template = PromptTemplate(
@@ -38,7 +38,7 @@ Question:
 Answer based ONLY on the above context."""
 )
 
-# 6️⃣ Create RAG chain
+#
 from langchain.chains import RetrievalQA
 qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
@@ -47,6 +47,6 @@ qa_chain = RetrievalQA.from_chain_type(
     return_source_documents=True
 )
 
-# 7️⃣ Ask a question
-result = qa_chain.invoke("how do we solve question 6?")
+#
+result = qa_chain.invoke("create a latex bullet point list of the main steps of the timeline, make it on the format of the included bullet points in the context")
 print(result["result"])

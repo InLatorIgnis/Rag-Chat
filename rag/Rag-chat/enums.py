@@ -5,8 +5,8 @@ class filePaths(Enum):
     PREPROCESSED_CSV = Path("processed_data.csv")  # expects columns: id,text
     EMBEDDINGS_CSV = Path("embeddings.csv")  # expects columns: id,embedding
     DB_PATH        = Path("embeddings.db")# SQLite database
-    RAW_PDF_PATH    = Path("docs/Tentamen___Linjyr_Algebra_FMAA55_2025_06_05.pdf")      # <‑‑ raw input file
-    RAW_CSV_PATH    = Path("raw_data.csv")      # <‑‑ raw input file
+    RAW_PDF_PATH    = Path("docs/Tentamen___Linjyr_Algebra_FMAA55_2025_06_05")      # <‑‑ raw input file
+    RAW_CSV_PATH    = Path("docs/raw_data.csv")      # <‑‑ raw input file
     PROCESSED_CSV   = Path("processed_data.csv")  # output
 
 

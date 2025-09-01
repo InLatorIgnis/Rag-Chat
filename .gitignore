@@ -215,3 +215,11 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 rag/Rag-chat/venv_rag/*
+rag/Rag-chat/venv-rag/*
+rag/Rag-chat/docs/Candidate thesis gant chart - Blad1(1).csv
+rag/Rag-chat/docs/raw_data.csv
+rag/Rag-chat/docs/raw_data.ods
+rag/Rag-chat/docs/sds.pdf
+rag/Rag-chat/embeddings.csv
+rag/Rag-chat/embeddings.db
+rag/Rag-chat/processed_data.csv
