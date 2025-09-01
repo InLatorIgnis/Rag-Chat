@@ -223,3 +223,7 @@ rag/Rag-chat/docs/sds.pdf
 rag/Rag-chat/embeddings.csv
 rag/Rag-chat/embeddings.db
 rag/Rag-chat/processed_data.csv
+rag/Rag-chat/test.py
+rag/Rag-chat/vector_store.json
+rag/Rag-chat/test.py
+
