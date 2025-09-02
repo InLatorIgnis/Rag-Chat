@@ -66,22 +66,20 @@ qa_chain = RetrievalQA.from_chain_type(
     return_source_documents=True
 )
 
-
 def run_query(question: str):
     try:
-        rag_logger.info("Running query: %s", question)
+        rag_logger.info(("Running query: {q}".format(q=question)))
         result = qa_chain.invoke(question)
         
         # Log RAG pipeline details
-        rag_logger.info("Answer: %s", result["result"])
+        rag_logger.info("Answer: ", result["result"])
         if "source_documents" in result:
             for i, doc in enumerate(result["source_documents"], 1):
-                rag_logger.info("Source %d: %s", i, doc.page_content[:200])
+                rag_logger.info(("Source {d}: {s}".format(d=i, s= doc.page_content[:200])))
         return result["result"]
     except Exception:
-        error_logger.error("Failed to run query: %s", question, exc_info=True)
+        error_logger.error(("Failed to run query: {q}".format( q = question)),exc_info=True)
         raise
-
 
 if __name__ == "__main__":
     answer = run_query("what is the text about?")
