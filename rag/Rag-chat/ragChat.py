@@ -7,8 +7,8 @@ from langchain_ollama import ChatOllama
 from langchain_core.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
-# --- Logging setup ---
-logging.basicConfig(level=logging.INFO)  # avoid duplicate root handlers
+#
+logging.basicConfig(level=logging.INFO)
 
 error_logger = logging.getLogger("errors")
 rag_logger = logging.getLogger("rag")
@@ -27,10 +27,10 @@ rag_handler.setFormatter(logging.Formatter(
 ))
 rag_logger.addHandler(rag_handler)
 
-# --- Embedding model ---
+#
 embedding_model = SentenceTransformer(enums.modelNames.EMBEDDING_MODEL)
 
-# --- Retriever ---
+#
 retriever_instance = retrieverSQL(db_path=enums.filePaths.DB_PATH.value)
 lc_retriever = LangChainSQLiteRetriever(
     retriever=retriever_instance,
@@ -38,7 +38,7 @@ lc_retriever = LangChainSQLiteRetriever(
     top_k=5
 )
 
-# --- LLM ---
+#
 llm = ChatOllama(
     model=enums.modelNames.LLM_MODEL,
     temperature=0.3,
@@ -46,7 +46,7 @@ llm = ChatOllama(
     request_timeout=120 
 )
 
-# --- Prompt ---
+#
 prompt_template = PromptTemplate(
     input_variables=["context", "question"],
     template="""Context:
@@ -58,7 +58,7 @@ Question:
 Answer based ONLY on the above context."""
 )
 
-# --- QA Chain ---
+#
 qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
     chain_type="stuff",
@@ -76,7 +76,7 @@ def run_query(question: str):
         rag_logger.info("Answer: %s", result["result"])
         if "source_documents" in result:
             for i, doc in enumerate(result["source_documents"], 1):
-                rag_logger.info("Source %d: %s", i, doc.page_content[:200])  # snippet
+                rag_logger.info("Source %d: %s", i, doc.page_content[:200])
         return result["result"]
     except Exception:
         error_logger.error("Failed to run query: %s", question, exc_info=True)
