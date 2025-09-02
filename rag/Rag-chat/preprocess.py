@@ -25,7 +25,7 @@ def process_row(text: str):
         text,
         truncation=True,
         padding="max_length",
-        max_length=512,          # adjust to your model’s limit
+        max_length=256,          # adjust to your model’s limit
         return_tensors="np",
     )
     return encoded["input_ids"][0], encoded["attention_mask"][0]
