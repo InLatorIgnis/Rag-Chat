@@ -1,4 +1,4 @@
-import logging
+import logging, json
 import enums
 from langChainWrapper import LangChainSQLiteRetriever
 from sentence_transformers import SentenceTransformer
@@ -20,12 +20,17 @@ error_handler.setFormatter(logging.Formatter(
 ))
 error_logger.addHandler(error_handler)
 
-rag_handler = logging.FileHandler("rag.log")
-rag_handler.setLevel(logging.INFO)
-rag_handler.setFormatter(logging.Formatter(
-    "%(asctime)s [%(levelname)s] %(message)s"
-))
-rag_logger.addHandler(rag_handler)
+
+
+rag_json_logger = logging.getLogger("rag.json")
+rag_json_handler = logging.FileHandler("rag.jsonl")  # JSON Lines format
+rag_json_handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s"))
+rag_json_logger.addHandler(rag_json_handler)
+rag_json_logger.setLevel(logging.INFO)
+
+
+def log_rag_event(event_type, **kwargs):
+    rag_json_logger.info(json.dumps({"event": event_type, **kwargs}))
 
 #
 embedding_model = SentenceTransformer(enums.modelNames.EMBEDDING_MODEL)
@@ -68,19 +73,25 @@ qa_chain = RetrievalQA.from_chain_type(
 
 def run_query(question: str):
     try:
-        rag_logger.info(("Running query: {q}".format(q=question)))
+        rag_json_logger.info(json.dumps({"event": "query_started", "question": question}))
         result = qa_chain.invoke(question)
-        
         # Log RAG pipeline details
-        rag_logger.info("Answer: ", result["result"])
-        if "source_documents" in result:
-            for i, doc in enumerate(result["source_documents"], 1):
-                rag_logger.info(("Source {d}: {s}".format(d=i, s= doc.page_content[:200])))
+        rag_json_logger.info(json.dumps({
+            "event": "query_completed",
+            "question": question,
+            "answer": result["result"],
+            "source_documents": [
+                {
+                    "page_content": doc.page_content,
+                    "metadata": doc.metadata
+                } for doc in result.get("source_documents", [])
+            ]
+        }))
         return result["result"]
     except Exception:
         error_logger.error(("Failed to run query: {q}".format( q = question)),exc_info=True)
         raise
 
 if __name__ == "__main__":
-    answer = run_query("what is the text about?")
+    answer = run_query("what year is the text about?")
     print(answer)

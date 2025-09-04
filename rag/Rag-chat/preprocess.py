@@ -10,14 +10,10 @@ import csv
 import logging
 from pathlib import Path
 import pdfplumber
-
 # ------------------------------------------------------------------
 from transformers import AutoTokenizer
 # ------------------------------------------------------------------
-tokenizer = AutoTokenizer.from_pretrained(enums.modelNames.HUGGINGFACE_MODEL.value)
-tokenizer.pad_token = tokenizer.eos_token
-
-
+tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/all-MiniLM-L6-v2")
 # ------------------------------------------------------------------
 def process_row(text: str):
     """Tokenise `text` and return IDs + mask."""
